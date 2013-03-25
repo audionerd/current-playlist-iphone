@@ -3,7 +3,7 @@ require 'sinatra'
 require 'haml'
 require 'sass'
 
-require 'lib/playlist'
+require './lib/playlist'
 
 helpers do
   # via: http://textplain.blogspot.com/2007/06/widontrb.html

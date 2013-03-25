@@ -1,4 +1,5 @@
-require File.expand_path('../.bundle/environment', __FILE__)
+require 'bundler'
+Bundler.setup
 
 require 'sinatra'
 require 'rack/cache'
@@ -11,5 +12,5 @@ use Rack::Cache,
   :metastore   => 'file:/tmp',
   :entitystore => 'file:/tmp'
 
-require 'lib/server'
+require './lib/server'
 run Sinatra::Application

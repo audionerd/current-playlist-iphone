@@ -2,27 +2,31 @@ require 'open-uri'
 require 'nokogiri'
 
 class Playlist
-  DEFAULT_LIMIT = 15
-  
-  @base_uri   = "http://minnesota.publicradio.org/radio/services/"+
-                  "the_current";
-
-  @feed_uri   = "#{@base_uri}/songs_played/the_current_playlist_xml.php"
-
-  @detail_uri = "#{@base_uri}/playlist/song_detail.php"
-
   def self.recent
-    feed = Nokogiri::XML(open("#{@feed_uri}?limit=#{DEFAULT_LIMIT}"))
-    (feed/"track").map do |x|
-      title = (x/"title").text
-      song_id = (x/"song-id").text
-      {
-        :title      => title,
-        :creator    => (x/"creator").text,
-        :album      => (x/"album").text,
-        :song_id    => song_id,
-        :detail_uri => "%s?song_id=%s" % [@detail_uri, song_id]
-      }
+    begin
+      time  = Time.now
+      uri   = "http://www.thecurrent.org/playlist/#{time.strftime("%Y-%m-%d/%k")}?isajax=1"
+
+      doc = Nokogiri::HTML.fragment(open(uri).read)
+
+      doc.css("article").map do |a|
+        title       = (a/"h5.title").text
+        creator     = (a/"h5.artist").text
+        song_id     = a.attr('id').gsub(/^song/, '')
+        detail_uri  = "http://www.thecurrent.org/playlist/catalog/%s" % song_id
+        album       = Nokogiri::HTML.fragment(open(detail_uri).read).css('section.content span').first.text
+
+        {
+          :title => title,
+          :creator => creator,
+          :song_id => song_id,
+          :detail_uri => detail_uri,
+          :album => album
+        }
+      end
+    rescue
+      {}
     end
+    
   end
 end
