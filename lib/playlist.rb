@@ -5,7 +5,7 @@ class Playlist
   def self.recent
     begin
       time  = Time.now
-      uri   = "http://www.thecurrent.org/playlist/#{time.strftime("%Y-%m-%d/%k")}?isajax=1"
+      uri   = "http://www.thecurrent.org/playlist/#{time.strftime("%Y-%m-%d/%-k")}?isajax=1"
 
       doc = Nokogiri::HTML.fragment(open(uri).read)
 
@@ -27,6 +27,5 @@ class Playlist
     rescue
       {}
     end
-    
   end
 end
