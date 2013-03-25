@@ -3,7 +3,7 @@ require 'nokogiri'
 
 class Playlist
   def self.recent
-    begin
+    # begin
       time  = Time.now
       uri   = "http://www.thecurrent.org/playlist/#{time.strftime("%Y-%m-%d/%-k")}?isajax=1"
 
@@ -24,8 +24,8 @@ class Playlist
           :album => album
         }
       end
-    rescue
-      {}
-    end
+    # rescue
+    #   {}
+    # end
   end
 end
