@@ -5,7 +5,9 @@ GEM
     eventmachine (0.12.10)
     haml (4.0.1)
       tilt
-    nokogiri (1.5.9)
+    mini_portile2 (2.4.0)
+    nokogiri (1.10.10)
+      mini_portile2 (~> 2.4.0)
     rack (1.5.2)
     rack-cache (1.2)
       rack (>= 0.4)
